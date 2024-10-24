@@ -1,8 +1,6 @@
 import datetime
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QLineEdit
+from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit
 from ProfileForm import ProfileForm
-
-
 
 date = datetime.datetime.now()
 dt = f'{date.day}.{date.month}.{date.year}'
@@ -51,7 +49,7 @@ class MainForm(QWidget):
 
         # Список с целями карьеры (понадобится при добавлении новых целей)
         self.career_targets = [[self.career_target, self.career_target_btn]]
-        
+
         self.career_target_num = QLabel(self)
         self.career_target_num.move(185, 110)
         self.career_target_num.setText('1.')
@@ -156,8 +154,6 @@ class MainForm(QWidget):
         self.added_career_target_btn.show()
 
         self.career_targets.append([self.added_career_target, self.added_career_target_btn])
-
-
 
     # ---------------------------------------------------------Добавить цель менталки
     def add_mental(self):
