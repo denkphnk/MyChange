@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton
+from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QInputDialog, QComboBox
 
 rank = 'Newbie'
 name = 'Daniel'
@@ -43,9 +43,9 @@ class ProfileForm(QWidget):
         self.userGender.setStyleSheet('font: 15pt')
         self.userGender.setText(f'Gender: ')
 
-        self.userGenderEdit = QLineEdit(self)
+        self.userGenderEdit = QComboBox(self)
+        self.userGenderEdit.addItems(['Male', 'Female'])
         self.userGenderEdit.setGeometry(130, 253, 150, 25)
-        self.userGenderEdit.setText(gender)
 
         # Кнопка сохранения
         self.applyBtn = QPushButton(self)
@@ -62,9 +62,9 @@ class ProfileForm(QWidget):
 
     # ------------------------------------------------------------------ЛОГИКА
     def apply(self):
-        if self.userNameEdit.text() and self.userGenderEdit.text():
-            name = self.userNameEdit.text()
-            gender = self.userGenderEdit.text()
+        if self.userNameEdit.text():
+            print(self.userNameEdit.text())
+            print(self.userGenderEdit.currentText())
             self.hide()
 
 
