@@ -17,8 +17,9 @@ class MainForm(QWidget):
 
         # Дата
         self.date_label = QLabel(self)
-        self.date_label.move(685, 20)
+        self.date_label.move(692, 20)
         self.date_label.setText(dt)
+        self.date_label.setStyleSheet('font: 10pt')
 
         # Открыть форму профиля
         self.profile_btn = QPushButton(self)
@@ -30,6 +31,7 @@ class MainForm(QWidget):
         self.career_label = QLabel(self)
         self.career_label.move(280, 60)
         self.career_label.setText('Career')
+        self.career_label.setStyleSheet('font: 11pt')
 
         # Добавить цель для карьеры
         self.career_add_target = QPushButton(self)
@@ -58,6 +60,7 @@ class MainForm(QWidget):
         self.mental_label = QLabel(self)
         self.mental_label.move(700, 60)
         self.mental_label.setText('Mental')
+        self.mental_label.setStyleSheet('font: 11pt')
 
         # Добавить цель для менталки
         self.mental_add_target = QPushButton(self)
@@ -86,6 +89,7 @@ class MainForm(QWidget):
         self.sport_label = QLabel(self)
         self.sport_label.move(1100, 60)
         self.sport_label.setText('Sport')
+        self.sport_label.setStyleSheet('font: 11pt')
 
         # Добавить цель для спорта
         self.sport_add_target = QPushButton(self)
@@ -136,63 +140,66 @@ class MainForm(QWidget):
 
     # ---------------------------------------------------------Добавить цель карьеры
     def add_career(self):
-        # Напечатать цель для карьеры
-        self.added_career_target = QLineEdit(self)
-        self.added_career_target.setGeometry(200, 100 + 50 * len(self.career_targets), 200, 30)
-        self.added_career_target.show()
+        if self.career_targets[-1][0].text().split():
+            # Напечатать цель для карьеры
+            self.added_career_target = QLineEdit(self)
+            self.added_career_target.setGeometry(200, 100 + 50 * len(self.career_targets), 200, 30)
+            self.added_career_target.show()
 
-        self.career_target_num = QLabel(self)
-        self.career_target_num.move(185, 110 + 50 * len(self.career_targets))
-        self.career_target_num.setText(f'{len(self.career_targets) + 1}.')
-        self.career_target_num.show()
+            self.career_target_num = QLabel(self)
+            self.career_target_num.move(185, 110 + 50 * len(self.career_targets))
+            self.career_target_num.setText(f'{len(self.career_targets) + 1}.')
+            self.career_target_num.show()
 
-        # Завершить цель для карьеры
-        self.added_career_target_btn = QPushButton(self)
-        self.added_career_target_btn.setGeometry(410, 105 + 50 * len(self.career_targets), 70, 20)
-        self.added_career_target_btn.setText('Finished!')
-        self.added_career_target_btn.clicked.connect(self.finish_career)
-        self.added_career_target_btn.show()
+            # Завершить цель для карьеры
+            self.added_career_target_btn = QPushButton(self)
+            self.added_career_target_btn.setGeometry(410, 105 + 50 * len(self.career_targets), 70, 20)
+            self.added_career_target_btn.setText('Finished!')
+            self.added_career_target_btn.clicked.connect(self.finish_career)
+            self.added_career_target_btn.show()
 
-        self.career_targets.append([self.added_career_target, self.added_career_target_btn])
+            self.career_targets.append([self.added_career_target, self.added_career_target_btn])
 
     # ---------------------------------------------------------Добавить цель менталки
     def add_mental(self):
-        # Напечатать цель для менталки
-        self.added_mental_target = QLineEdit(self)
-        self.added_mental_target.setGeometry(620, 100 + 50 * len(self.mental_targets), 200, 30)
-        self.added_mental_target.show()
+        if self.mental_targets[-1][0].text().split():
+            # Напечатать цель для менталки
+            self.added_mental_target = QLineEdit(self)
+            self.added_mental_target.setGeometry(620, 100 + 50 * len(self.mental_targets), 200, 30)
+            self.added_mental_target.show()
 
-        self.mental_target_num = QLabel(self)
-        self.mental_target_num.move(605, 110 + 50 * len(self.mental_targets))
-        self.mental_target_num.setText(f'{len(self.mental_targets) + 1}.')
-        self.mental_target_num.show()
+            self.mental_target_num = QLabel(self)
+            self.mental_target_num.move(605, 110 + 50 * len(self.mental_targets))
+            self.mental_target_num.setText(f'{len(self.mental_targets) + 1}.')
+            self.mental_target_num.show()
 
-        # Завершить цель для менталки
-        self.added_mental_target_btn = QPushButton(self)
-        self.added_mental_target_btn.setGeometry(830, 105 + 50 * len(self.mental_targets), 70, 20)
-        self.added_mental_target_btn.setText('Finished!')
-        self.added_mental_target_btn.clicked.connect(self.finish_mental)
-        self.added_mental_target_btn.show()
+            # Завершить цель для менталки
+            self.added_mental_target_btn = QPushButton(self)
+            self.added_mental_target_btn.setGeometry(830, 105 + 50 * len(self.mental_targets), 70, 20)
+            self.added_mental_target_btn.setText('Finished!')
+            self.added_mental_target_btn.clicked.connect(self.finish_mental)
+            self.added_mental_target_btn.show()
 
-        self.mental_targets.append([self.added_mental_target, self.added_mental_target_btn])
+            self.mental_targets.append([self.added_mental_target, self.added_mental_target_btn])
 
     # ---------------------------------------------------------Добавить цель спорта
     def add_sport(self):
-        # Напечатать цель для спорта
-        self.added_sport_target = QLineEdit(self)
-        self.added_sport_target.setGeometry(1020, 100 + 50 * len(self.sport_targets), 200, 30)
-        self.added_sport_target.show()
+        if self.sport_targets[-1][0].text().split():
+            # Напечатать цель для спорта
+            self.added_sport_target = QLineEdit(self)
+            self.added_sport_target.setGeometry(1020, 100 + 50 * len(self.sport_targets), 200, 30)
+            self.added_sport_target.show()
 
-        self.sport_target_num = QLabel(self)
-        self.sport_target_num.move(1005, 110 + 50 * len(self.sport_targets))
-        self.sport_target_num.setText(f'{len(self.sport_targets) + 1}.')
-        self.sport_target_num.show()
+            self.sport_target_num = QLabel(self)
+            self.sport_target_num.move(1005, 110 + 50 * len(self.sport_targets))
+            self.sport_target_num.setText(f'{len(self.sport_targets) + 1}.')
+            self.sport_target_num.show()
 
-        # Завершить цель для спорта
-        self.added_sport_target_btn = QPushButton(self)
-        self.added_sport_target_btn.setGeometry(1230, 105 + 50 * len(self.sport_targets), 70, 20)
-        self.added_sport_target_btn.setText('Finished!')
-        self.added_sport_target_btn.clicked.connect(self.finish_sport)
-        self.added_sport_target_btn.show()
+            # Завершить цель для спорта
+            self.added_sport_target_btn = QPushButton(self)
+            self.added_sport_target_btn.setGeometry(1230, 105 + 50 * len(self.sport_targets), 70, 20)
+            self.added_sport_target_btn.setText('Finished!')
+            self.added_sport_target_btn.clicked.connect(self.finish_sport)
+            self.added_sport_target_btn.show()
 
-        self.sport_targets.append([self.added_sport_target, self.added_sport_target_btn])
+            self.sport_targets.append([self.added_sport_target, self.added_sport_target_btn])
