@@ -7,6 +7,7 @@ dt = f'{date.day}.{date.month}.{date.year}'
 last_date = dt
 
 class MainForm(QWidget):
+
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -28,6 +29,11 @@ class MainForm(QWidget):
         self.profile_btn.clicked.connect(self.profile_show)
 
         # --------------------------------------------------------------------------------Блок карьеры
+        self.career_del_target = QPushButton(self)
+        self.career_del_target.setGeometry(225, 55, 30, 30)
+        self.career_del_target.setText('-')
+        self.career_del_target.clicked.connect(self.del_career)
+
         self.career_label = QLabel(self)
         self.career_label.move(280, 60)
         self.career_label.setText('Career')
@@ -57,6 +63,11 @@ class MainForm(QWidget):
         self.career_target_num.setText('1.')
 
         # --------------------------------------------------------------------------------Блок менталки
+        self.mental_del_target = QPushButton(self)
+        self.mental_del_target.setGeometry(640, 55, 30, 30)
+        self.mental_del_target.setText('-')
+        self.mental_del_target.clicked.connect(self.del_mental)
+
         self.mental_label = QLabel(self)
         self.mental_label.move(700, 60)
         self.mental_label.setText('Mental')
@@ -86,6 +97,11 @@ class MainForm(QWidget):
         self.mental_target_num.setText('1.')
 
         # --------------------------------------------------------------------------------Блок спорта
+        self.sport_del_target = QPushButton(self)
+        self.sport_del_target.setGeometry(1040, 55, 30, 30)
+        self.sport_del_target.setText('-')
+        self.sport_del_target.clicked.connect(self.del_sport)
+
         self.sport_label = QLabel(self)
         self.sport_label.move(1100, 60)
         self.sport_label.setText('Sport')
@@ -140,7 +156,7 @@ class MainForm(QWidget):
 
     # ---------------------------------------------------------Добавить цель карьеры
     def add_career(self):
-        if self.career_targets[-1][0].text().split():
+        if self.career_targets[-1][0].text().split() and len(self.career_targets) < 12:
             # Напечатать цель для карьеры
             self.added_career_target = QLineEdit(self)
             self.added_career_target.setGeometry(200, 100 + 50 * len(self.career_targets), 200, 30)
@@ -158,11 +174,19 @@ class MainForm(QWidget):
             self.added_career_target_btn.clicked.connect(self.finish_career)
             self.added_career_target_btn.show()
 
-            self.career_targets.append([self.added_career_target, self.added_career_target_btn])
+            self.career_targets.append([self.added_career_target, self.added_career_target_btn, self.career_target_num])
+
+    # ---------------------------------------------------------Удалить цель карьеры
+    def del_career(self):
+        if len(self.career_targets) > 1:
+            self.career_targets[-1][0].hide()
+            self.career_targets[-1][1].hide()
+            self.career_targets[-1][2].hide()
+            self.career_targets = self.career_targets[:-1]
 
     # ---------------------------------------------------------Добавить цель менталки
     def add_mental(self):
-        if self.mental_targets[-1][0].text().split():
+        if self.mental_targets[-1][0].text().split() and len(self.mental_targets) < 12:
             # Напечатать цель для менталки
             self.added_mental_target = QLineEdit(self)
             self.added_mental_target.setGeometry(620, 100 + 50 * len(self.mental_targets), 200, 30)
@@ -180,11 +204,19 @@ class MainForm(QWidget):
             self.added_mental_target_btn.clicked.connect(self.finish_mental)
             self.added_mental_target_btn.show()
 
-            self.mental_targets.append([self.added_mental_target, self.added_mental_target_btn])
+            self.mental_targets.append([self.added_mental_target, self.added_mental_target_btn, self.mental_target_num])
+
+    # ---------------------------------------------------------Удалить цель менталки
+    def del_mental(self):
+        if len(self.mental_targets) > 1:
+            self.mental_targets[-1][0].hide()
+            self.mental_targets[-1][1].hide()
+            self.mental_targets[-1][2].hide()
+            self.mental_targets = self.mental_targets[:-1]
 
     # ---------------------------------------------------------Добавить цель спорта
     def add_sport(self):
-        if self.sport_targets[-1][0].text().split():
+        if self.sport_targets[-1][0].text().split() and len(self.sport_targets) < 12:
             # Напечатать цель для спорта
             self.added_sport_target = QLineEdit(self)
             self.added_sport_target.setGeometry(1020, 100 + 50 * len(self.sport_targets), 200, 30)
@@ -202,4 +234,14 @@ class MainForm(QWidget):
             self.added_sport_target_btn.clicked.connect(self.finish_sport)
             self.added_sport_target_btn.show()
 
-            self.sport_targets.append([self.added_sport_target, self.added_sport_target_btn])
+            self.sport_targets.append([self.added_sport_target, self.added_sport_target_btn, self.sport_target_num])
+
+    # ---------------------------------------------------------Удалить цель спорта
+    def del_sport(self):
+        if len(self.sport_targets) > 1:
+            self.sport_targets[-1][0].hide()
+            self.sport_targets[-1][1].hide()
+            self.sport_targets[-1][2].hide()
+            self.sport_targets = self.sport_targets[:-1]
+
+
