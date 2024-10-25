@@ -38,7 +38,6 @@ class MainForm(QWidget):
         self.career_label.move(280, 60)
         self.career_label.setText('Career')
         self.career_label.setStyleSheet('font: 11pt')
-        print(self.career_label.size())
 
         # Добавить цель для карьеры
         self.career_add_target = QPushButton(self)
@@ -175,14 +174,14 @@ class MainForm(QWidget):
             self.added_career_target_btn.clicked.connect(self.finish_career)
             self.added_career_target_btn.show()
 
-            self.career_targets.append([self.added_career_target, self.added_career_target_btn])
+            self.career_targets.append([self.added_career_target, self.added_career_target_btn, self.career_target_num])
 
     # ---------------------------------------------------------Удалить цель карьеры
     def del_career(self):
         if len(self.career_targets) > 1:
-            self.added_career_target.hide()
-            self.career_target_num.hide()
-            self.added_career_target_btn.hide()
+            self.career_targets[-1][0].hide()
+            self.career_targets[-1][1].hide()
+            self.career_targets[-1][2].hide()
             self.career_targets = self.career_targets[:-1]
 
     # ---------------------------------------------------------Добавить цель менталки
@@ -205,14 +204,14 @@ class MainForm(QWidget):
             self.added_mental_target_btn.clicked.connect(self.finish_mental)
             self.added_mental_target_btn.show()
 
-            self.mental_targets.append([self.added_mental_target, self.added_mental_target_btn])
+            self.mental_targets.append([self.added_mental_target, self.added_mental_target_btn, self.mental_target_num])
 
     # ---------------------------------------------------------Удалить цель менталки
     def del_mental(self):
         if len(self.mental_targets) > 1:
-            self.added_mental_target.hide()
-            self.mental_target_num.hide()
-            self.added_mental_target_btn.hide()
+            self.mental_targets[-1][0].hide()
+            self.mental_targets[-1][1].hide()
+            self.mental_targets[-1][2].hide()
             self.mental_targets = self.mental_targets[:-1]
 
     # ---------------------------------------------------------Добавить цель спорта
@@ -235,14 +234,14 @@ class MainForm(QWidget):
             self.added_sport_target_btn.clicked.connect(self.finish_sport)
             self.added_sport_target_btn.show()
 
-            self.sport_targets.append([self.added_sport_target, self.added_sport_target_btn])
+            self.sport_targets.append([self.added_sport_target, self.added_sport_target_btn, self.sport_target_num])
 
     # ---------------------------------------------------------Удалить цель спорта
     def del_sport(self):
         if len(self.sport_targets) > 1:
-            self.added_sport_target.hide()
-            self.sport_target_num.hide()
-            self.added_sport_target_btn.hide()
+            self.sport_targets[-1][0].hide()
+            self.sport_targets[-1][1].hide()
+            self.sport_targets[-1][2].hide()
             self.sport_targets = self.sport_targets[:-1]
 
 
