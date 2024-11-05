@@ -1,9 +1,12 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QComboBox
+from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QComboBox
 
 with open('curAccount.txt', 'r') as f_in:
-    data = f_in.readlines()[0].split(';')
-    userName = data[0]
-    userGender = data[1]
+
+    data = f_in.readlines()
+    if data:
+        data = data[0].split(';')
+        userName = data[0]
+        userGender = data[1]
     
 rank = 'Newbie'
 points = 0
@@ -16,6 +19,12 @@ class ProfileForm(QWidget):
     def initUI(self):
         self.setGeometry(550, 150, 300, 400)
         self.setWindowTitle('Profile')
+
+        # Смена аккаунта
+        self.switchBtn = QPushButton(self)
+        self.switchBtn.move(105, 20)
+        self.switchBtn.setText('Log out')
+        self.switchBtn.clicked.connect(self.logOut)
 
         # Ранг
         self.userRank = QLabel(self)
@@ -65,6 +74,11 @@ class ProfileForm(QWidget):
         self.cancelBtn.clicked.connect(self.cancel)
 
     # ------------------------------------------------------------------ЛОГИКА
+    def logOut(self):
+        with open('curAccount.txt', 'w') as f_in:
+            f_in.write('')
+            QApplication.quit()
+
     def apply(self):
         if self.userNameEdit.text():
             print(self.userNameEdit.text())

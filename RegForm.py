@@ -1,7 +1,5 @@
-import sys
 import sqlite3 as sq
 from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QPushButton, QComboBox, QStatusBar
-from MainForm import MainForm
 
 db = 'usersInfo.db'
 
@@ -71,16 +69,11 @@ class RegForm(QMainWindow):
                     
                     cur.execute(sql, (userName, userGender, userPassword))
                     con.commit()
-                    self.hide()
-
+                    
                     with open('accounts.txt', 'a') as f_in:
                         f_in.write(f'{userName};{userGender}\n')
-                    
-                    if len(res) == 1:
-                        self.mainForm = MainForm()
-                        self.mainForm.show()
-                        self.hide()
 
+                    QApplication.quit()
 
                 else:
                     status_bar = QStatusBar()

@@ -1,7 +1,6 @@
 import sqlite3 as sq
-from PyQt6.QtWidgets import QMainWindow, QLabel, QLineEdit, QPushButton, QStatusBar
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QStatusBar
 from RegForm import RegForm
-from MainForm import MainForm
 
 
 db = 'usersInfo.db'
@@ -64,12 +63,7 @@ class AuthForm(QMainWindow):
                 if res:
                     with open('curAccount.txt', 'w') as f_in:
                         f_in.write(f'{res[0][1]};{res[0][2]}')
-
-
-                    self.mainForm = MainForm()
-                    self.mainForm.show()
-                    self.hide()
-
+                        QApplication.quit()
                 else:
                     status_bar = QStatusBar()
                     self.setStatusBar(status_bar)
