@@ -1,10 +1,15 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QInputDialog, QComboBox
+from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QComboBox
 
+with open('curAccount.txt', 'r') as f_in:
+
+    data = f_in.readlines()
+    if data:
+        data = data[0].split(';')
+        userName = data[0]
+        userGender = data[1]
+    
 rank = 'Newbie'
-name = 'Daniel'
-gender = 'Male'
 points = 0
-
 
 class ProfileForm(QWidget):
     def __init__(self):
@@ -14,6 +19,12 @@ class ProfileForm(QWidget):
     def initUI(self):
         self.setGeometry(550, 150, 300, 400)
         self.setWindowTitle('Profile')
+
+        # Смена аккаунта
+        self.switchBtn = QPushButton(self)
+        self.switchBtn.move(105, 20)
+        self.switchBtn.setText('Log out')
+        self.switchBtn.clicked.connect(self.logOut)
 
         # Ранг
         self.userRank = QLabel(self)
@@ -35,7 +46,8 @@ class ProfileForm(QWidget):
 
         self.userNameEdit = QLineEdit(self)
         self.userNameEdit.setGeometry(130, 203, 150, 25)
-        self.userNameEdit.setText(name)
+        self.userNameEdit.setText(userName)
+
 
         # Пол
         self.userGender = QLabel(self)
@@ -46,6 +58,7 @@ class ProfileForm(QWidget):
         self.userGenderEdit = QComboBox(self)
         self.userGenderEdit.addItems(['Male', 'Female'])
         self.userGenderEdit.setGeometry(130, 253, 150, 25)
+        self.userGenderEdit.setCurrentIndex(['Male', 'Female'].index(userGender))
 
         # Кнопка сохранения
         self.applyBtn = QPushButton(self)
@@ -61,6 +74,11 @@ class ProfileForm(QWidget):
         self.cancelBtn.clicked.connect(self.cancel)
 
     # ------------------------------------------------------------------ЛОГИКА
+    def logOut(self):
+        with open('curAccount.txt', 'w') as f_in:
+            f_in.write('')
+            QApplication.quit()
+
     def apply(self):
         if self.userNameEdit.text():
             print(self.userNameEdit.text())
