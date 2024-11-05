@@ -1,10 +1,9 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QInputDialog, QComboBox
+from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QComboBox
 
 rank = 'Newbie'
-name = 'Daniel'
+userName = 'Daniel'
 gender = 'Male'
 points = 0
-
 
 class ProfileForm(QWidget):
     def __init__(self):
@@ -35,7 +34,7 @@ class ProfileForm(QWidget):
 
         self.userNameEdit = QLineEdit(self)
         self.userNameEdit.setGeometry(130, 203, 150, 25)
-        self.userNameEdit.setText(name)
+        self.userNameEdit.setText(userName)
 
         # Пол
         self.userGender = QLabel(self)
