@@ -6,6 +6,7 @@ date = datetime.datetime.now()
 dt = f'{date.day}.{date.month}.{date.year}'
 last_date = dt
 
+
 class MainForm(QWidget):
 
     def __init__(self):
@@ -179,11 +180,11 @@ class MainForm(QWidget):
     # ---------------------------------------------------------Удалить цель карьеры
     def del_career(self):
         if len(self.career_targets) > 1:
-            self.career_targets[-1][0].hide()
-            self.career_targets[-1][1].hide()
-            self.career_targets[-1][2].hide()
+            for i in self.career_targets[-1]:
+                i.hide()
             self.career_targets = self.career_targets[:-1]
-
+        else:
+            self.career_targets[0][0].clear()
     # ---------------------------------------------------------Добавить цель менталки
     def add_mental(self):
         if self.mental_targets[-1][0].text().split() and len(self.mental_targets) < 12:
@@ -209,10 +210,11 @@ class MainForm(QWidget):
     # ---------------------------------------------------------Удалить цель менталки
     def del_mental(self):
         if len(self.mental_targets) > 1:
-            self.mental_targets[-1][0].hide()
-            self.mental_targets[-1][1].hide()
-            self.mental_targets[-1][2].hide()
+            for i in self.mental_targets[-1]:
+                i.hide()
             self.mental_targets = self.mental_targets[:-1]
+        else:
+            self.mental_targets[0][0].clear()
 
     # ---------------------------------------------------------Добавить цель спорта
     def add_sport(self):
@@ -239,9 +241,8 @@ class MainForm(QWidget):
     # ---------------------------------------------------------Удалить цель спорта
     def del_sport(self):
         if len(self.sport_targets) > 1:
-            self.sport_targets[-1][0].hide()
-            self.sport_targets[-1][1].hide()
-            self.sport_targets[-1][2].hide()
+            for i in self.sport_targets[-1]:
+                i.hide()
             self.sport_targets = self.sport_targets[:-1]
-
-
+        else:
+            self.sport_targets[0][0].clear()

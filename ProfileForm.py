@@ -67,8 +67,5 @@ class ProfileForm(QWidget):
             print(self.userGenderEdit.currentText())
             self.hide()
 
-
-
-
     def cancel(self):
         self.hide()
