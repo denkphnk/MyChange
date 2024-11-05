@@ -1,8 +1,7 @@
+import sys
 import sqlite3 as sq
-import os
-from PyQt6.QtWidgets import QMainWindow, QLabel, QLineEdit, QPushButton, QComboBox, QStatusBar
-
-
+from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QPushButton, QComboBox, QStatusBar
+from MainForm import MainForm
 
 db = 'usersInfo.db'
 
@@ -17,31 +16,31 @@ class RegForm(QMainWindow):
 
         # Имя
         self.name = QLabel(self)
-        self.name.move(50, 50)
+        self.name.move(50, 150)
         self.name.setStyleSheet('font: 15pt')
         self.name.setText(f'Name: ')
 
         self.nameEdit = QLineEdit(self)
-        self.nameEdit.setGeometry(130, 53, 150, 25)
+        self.nameEdit.setGeometry(130, 153, 150, 25)
 
         # Пол
         self.gender = QLabel(self)
-        self.gender.move(50, 100)
+        self.gender.move(50, 200)
         self.gender.setStyleSheet('font: 15pt')
         self.gender.setText(f'Gender: ')
 
         self.genderEdit = QComboBox(self)
         self.genderEdit.addItems(['Male', 'Female'])
-        self.genderEdit.setGeometry(130, 103, 150, 25)
+        self.genderEdit.setGeometry(130, 203, 150, 25)
 
         # Пароль
         self.password = QLabel(self)
-        self.password.move(50, 150)
+        self.password.move(50, 250)
         self.password.setStyleSheet('font: 15pt')
         self.password.setText(f'Password: ')
 
         self.passwordEdit = QLineEdit(self)
-        self.passwordEdit.setGeometry(140, 153, 140, 25)
+        self.passwordEdit.setGeometry(140, 253, 140, 25)
 
         # Кнопка сохранения
         self.applyBtn = QPushButton(self)
@@ -50,20 +49,23 @@ class RegForm(QMainWindow):
         self.applyBtn.setText('Apply')
         self.applyBtn.clicked.connect(self.apply)
 
+    # Кнопка сохранения
     def apply(self):
         with sq.connect(db) as con:
             userName = self.nameEdit.text()
             userGender = self.genderEdit.currentText()
             userPassword = self.passwordEdit.text()
 
-            if userName and userGender and userPassword:
+            # Поля не пустые
+            if userName and userPassword:
                 cur = con.cursor()
                 sql = """SELECT * FROM users
                             WHERE userName = ?"""
                 
-                cur.execute(sql, (userName, ))
-
-                if len(list(cur)) == 0:
+                res = list(cur.execute(sql, (userName, )))
+                
+                # Есть ли такие же имена
+                if len(res) == 0:
                     sql = """INSERT INTO users(userName, userGender, userPassword)
                                 VALUES(?, ?, ?)"""
                     
@@ -71,8 +73,13 @@ class RegForm(QMainWindow):
                     con.commit()
                     self.hide()
 
-                    with open('accounts.txt', 'a') as data:
-                        data.write(f'{userName}\n')
+                    with open('accounts.txt', 'a') as f_in:
+                        f_in.write(f'{userName};{userGender}\n')
+                    
+                    if len(res) == 1:
+                        self.mainForm = MainForm()
+                        self.mainForm.show()
+                        self.hide()
 
 
                 else:
@@ -84,4 +91,4 @@ class RegForm(QMainWindow):
                 status_bar = QStatusBar()
                 self.setStatusBar(status_bar)
                 status_bar.showMessage('Fill in all fields')
-            
+

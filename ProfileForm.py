@@ -1,8 +1,11 @@
 from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QComboBox
 
+with open('curAccount.txt', 'r') as f_in:
+    data = f_in.readlines()[0].split(';')
+    userName = data[0]
+    userGender = data[1]
+    
 rank = 'Newbie'
-userName = 'Daniel'
-gender = 'Male'
 points = 0
 
 class ProfileForm(QWidget):
@@ -36,6 +39,7 @@ class ProfileForm(QWidget):
         self.userNameEdit.setGeometry(130, 203, 150, 25)
         self.userNameEdit.setText(userName)
 
+
         # Пол
         self.userGender = QLabel(self)
         self.userGender.move(50, 250)
@@ -45,6 +49,7 @@ class ProfileForm(QWidget):
         self.userGenderEdit = QComboBox(self)
         self.userGenderEdit.addItems(['Male', 'Female'])
         self.userGenderEdit.setGeometry(130, 253, 150, 25)
+        self.userGenderEdit.setCurrentIndex(['Male', 'Female'].index(userGender))
 
         # Кнопка сохранения
         self.applyBtn = QPushButton(self)

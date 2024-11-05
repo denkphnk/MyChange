@@ -1,2 +1,2 @@
-Sofia
-Daniel
+Daniel;Male
+Sofia;Female

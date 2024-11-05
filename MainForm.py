@@ -6,7 +6,6 @@ date = datetime.datetime.now()
 dt = f'{date.day}.{date.month}.{date.year}'
 last_date = dt
 
-
 class MainForm(QWidget):
 
     def __init__(self):
