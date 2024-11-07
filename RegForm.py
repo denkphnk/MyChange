@@ -1,7 +1,7 @@
 import sqlite3 as sq
 from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QPushButton, QComboBox, QStatusBar
 
-db = 'usersInfo.db'
+db = 'data/usersInfo.db'
 
 class RegForm(QMainWindow):
     def __init__(self):
@@ -70,7 +70,7 @@ class RegForm(QMainWindow):
                     cur.execute(sql, (userName, userGender, userPassword))
                     con.commit()
                     
-                    with open('accounts.txt', 'a') as f_in:
+                    with open('data/accounts.txt', 'a') as f_in:
                         f_in.write(f'{userName};{userGender}\n')
 
                     QApplication.quit()

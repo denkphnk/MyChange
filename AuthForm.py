@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushB
 from RegForm import RegForm
 
 
-db = 'usersInfo.db'
+db = 'data/usersInfo.db'
 
 
 class AuthForm(QMainWindow):
@@ -61,7 +61,7 @@ class AuthForm(QMainWindow):
                 res = list(cur.execute(sql, (userName, userPassword)))
 
                 if res:
-                    with open('curAccount.txt', 'w') as f_in:
+                    with open('data/curAccount.txt', 'w') as f_in:
                         f_in.write(f'{res[0][1]};{res[0][2]}')
                         QApplication.quit()
                 else:

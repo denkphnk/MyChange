@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QComboBox
 
-with open('curAccount.txt', 'r') as f_in:
+with open('data/curAccount.txt', 'r') as f_in:
 
     data = f_in.readlines()
     if data:
