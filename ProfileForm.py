@@ -75,7 +75,7 @@ class ProfileForm(QWidget):
 
     # ------------------------------------------------------------------ЛОГИКА
     def logOut(self):
-        with open('curAccount.txt', 'w') as f_in:
+        with open('data/curAccount.txt', 'w') as f_in:
             f_in.write('')
             QApplication.quit()
 

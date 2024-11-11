@@ -1,6 +1,5 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from MainForm import MainForm
 from AuthForm import AuthForm
 
 db = 'data/usersInfo.db'
@@ -13,6 +12,7 @@ if __name__ == '__main__':
         app = QApplication(sys.argv)
 
         if data:
+            from MainForm import MainForm
             mc = MainForm()
         else:
             mc = AuthForm()

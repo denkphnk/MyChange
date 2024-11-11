@@ -73,6 +73,13 @@ class RegForm(QMainWindow):
                     with open('data/accounts.txt', 'a') as f_in:
                         f_in.write(f'{userName};{userGender}\n')
 
+                    sql = """INSERT INTO targets(targetCat, targetText, userName, isFinished)
+                                VALUES(?, '', ?, 'False')"""
+
+                    cats = ['Career', 'Mental', 'Sport']
+                    for i in cats:
+                        cur.execute(sql, (i, userName))
+
                     QApplication.quit()
 
                 else:
