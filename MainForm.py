@@ -160,7 +160,7 @@ class MainForm(QWidget):
                     # Завершить цель для карьеры
                     self.added_mental_target_btn = QPushButton(self)
                     self.added_mental_target_btn.setGeometry(
-                        830, 105 + 50 * (len(self.career_targets) - 1), 70, 20)
+                        830, 105 + 50 * len(self.mental_targets), 70, 20)
                     self.added_mental_target_btn.setText('Finished!')
                     self.added_mental_target_btn.clicked.connect(
                         self.finish_mental)
