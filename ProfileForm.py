@@ -1,4 +1,7 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QComboBox
+import sqlite3 as sq
+
+db = 'data/usersInfo.db'
 
 with open('data/curAccount.txt', 'r') as f_in:
 
@@ -8,8 +11,28 @@ with open('data/curAccount.txt', 'r') as f_in:
         userName = data[0]
         userGender = data[1]
     
-rank = 'Newbie'
-points = 0
+with sq.connect(db) as con:
+    cur = con.cursor()
+
+    sql = """SELECT * FROM targets
+                WHERE isFinished = 'False' and targetText <> ''"""
+    unfinished = list(cur.execute(sql))
+
+    sql = """SELECT * FROM targets
+                WHERE targetText <> ''"""
+    allTargets = list(cur.execute(sql))
+    
+    allFinished = not bool(unfinished)
+
+if len(allTargets) == len(unfinished):
+    rank = -1
+if len(allTargets) > len(unfinished):
+    rank = 0
+if len(unfinished) == 0:
+    rank = 1
+
+print(rank)
+
 
 class ProfileForm(QWidget):
     def __init__(self):
@@ -30,13 +53,13 @@ class ProfileForm(QWidget):
         self.userRank = QLabel(self)
         self.userRank.move(75, 50)
         self.userRank.setStyleSheet('font: 35pt')
-        self.userRank.setText(rank)
+        self.userRank.setText(str(rank))
 
         # Очки
-        self.userPoints = QLabel(self)
-        self.userPoints.move(50, 150)
-        self.userPoints.setStyleSheet('font: 15pt')
-        self.userPoints.setText(f'Points:    {points}')
+        # self.userPoints = QLabel(self)
+        # self.userPoints.move(50, 150)
+        # self.userPoints.setStyleSheet('font: 15pt')
+        # self.userPoints.setText(f'Points:    {points}')
 
         # Имя
         self.userName = QLabel(self)
