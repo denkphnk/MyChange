@@ -1,8 +1,25 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QComboBox
 from PyQt6.QtGui import QPixmap
 import sqlite3 as sq
+from datetime import datetime as dt
 
 db = 'data/usersInfo.db'
+
+with open('data/last_date.txt', 'r+', encoding='utf8') as f_in:
+    data = f_in.readlines()
+    date_now_str = str(dt.now().date())
+    if not data:
+        f_in.write(date_now_str)
+        flag = False
+    else:
+        date_now = list(map(int, str(dt.now().date()).split('-')))
+        data = list(map(int, data[0].split('-')))
+
+        flag = all([data[i] == date_now[i] for i in range(3)])
+        f_in.seek(0)
+        f_in.write(date_now_str)
+        
+
 
 with open('data/curAccount.txt', 'r') as f_in:
 
@@ -15,15 +32,23 @@ with open('data/curAccount.txt', 'r') as f_in:
 with sq.connect(db) as con:
     cur = con.cursor()
 
+    # Завершенные цели
     sql = """SELECT * FROM targets
                 WHERE isFinished = 'False' and targetText <> ''"""
     unfinished = list(cur.execute(sql))
-
     sql = """SELECT * FROM targets
                 WHERE targetText <> ''"""
     allTargets = list(cur.execute(sql))
-    
     allFinished = not bool(unfinished)
+
+    # Обнуление завершенности
+    if not flag:
+        sql = """UPDATE targets
+                    SET isFinished = 'False'"""
+        cur.execute(sql)
+
+        con.commit()
+
 
 if len(allTargets) == len(unfinished):
     rank = -1
@@ -32,7 +57,6 @@ if len(allTargets) > len(unfinished):
 if len(unfinished) == 0:
     rank = 1
 image = 'images/' + str(rank) + '.jpg'
-print(rank, image)
 
 
 class ProfileForm(QWidget):
@@ -52,9 +76,8 @@ class ProfileForm(QWidget):
 
         # Ранг
         self.pixmap = QPixmap(image)
+
         self.userRank = QLabel(self)
-        # self.userRank.move(90, 50)
-        # self.userRank.resize(120, 120)
         self.userRank.setGeometry(90, 50, 120, 120)
         self.userRank.setPixmap(self.pixmap)
 
