@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QComboBox
+from PyQt6.QtGui import QPixmap
 import sqlite3 as sq
 
 db = 'data/usersInfo.db'
@@ -30,8 +31,8 @@ if len(allTargets) > len(unfinished):
     rank = 0
 if len(unfinished) == 0:
     rank = 1
-
-print(rank)
+image = 'images/' + str(rank) + '.jpg'
+print(rank, image)
 
 
 class ProfileForm(QWidget):
@@ -45,15 +46,17 @@ class ProfileForm(QWidget):
 
         # Смена аккаунта
         self.switchBtn = QPushButton(self)
-        self.switchBtn.move(105, 20)
+        self.switchBtn.move(110, 20)
         self.switchBtn.setText('Log out')
         self.switchBtn.clicked.connect(self.logOut)
 
         # Ранг
+        self.pixmap = QPixmap(image)
         self.userRank = QLabel(self)
-        self.userRank.move(75, 50)
-        self.userRank.setStyleSheet('font: 35pt')
-        self.userRank.setText(str(rank))
+        # self.userRank.move(90, 50)
+        # self.userRank.resize(120, 120)
+        self.userRank.setGeometry(90, 50, 120, 120)
+        self.userRank.setPixmap(self.pixmap)
 
         # Очки
         # self.userPoints = QLabel(self)
