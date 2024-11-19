@@ -462,7 +462,8 @@ class MainForm(QWidget):
 
             else:
                 sql = """UPDATE targets
-                            SET targetText = ''
+                            SET targetText = '',
+                            isFinished = 'False'
                             WHERE userName = ? and targetText = ? and targetCat = ?"""
 
             cur.execute(
