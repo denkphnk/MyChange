@@ -30,8 +30,11 @@ class AuthForm(QMainWindow):
         self.password.setStyleSheet('font: 15pt')
         self.password.setText(f'Password: ')
 
+
         self.passwordEdit = QLineEdit(self)
         self.passwordEdit.setGeometry(140, 203, 140, 25)
+        self.passwordEdit.setEchoMode(QLineEdit.EchoMode.Password)
+
 
         # Кнопка входа
         self.enterBtn = QPushButton(self)

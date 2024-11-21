@@ -247,14 +247,7 @@ class MainForm(QWidget):
         self.sport_target_num.move(1005, 110)
         self.sport_target_num.setText('1.')
 
-        # with sq.connect(db) as con:
-        #     cur = con.cursor()
 
-        #     sql = """SELECT targetID FROM targets
-        #                 WHERE isFinished = 'False'"""
-
-        #     unfinished_targets = list(cur.execute(sql))
-        #     print(unfinished_targets)
     # --------------------------------------------------------------------------------ЛОГИКА
 
     def profile_show(self):
@@ -331,6 +324,9 @@ class MainForm(QWidget):
             self.added_career_target_btn.setText('Finished!')
             self.added_career_target_btn.clicked.connect(self.finish_career)
             self.added_career_target_btn.show()
+            self.career_targets[-1][0].setEnabled(False)
+
+
 
             with sq.connect(db) as con:
                 cur = con.cursor()
@@ -347,40 +343,43 @@ class MainForm(QWidget):
                     res = cur.execute(
                         sql, (self.career_targets[-1][0].text(), ))
 
-                self.career_targets[-1][0].setEnabled(False)
-                self.career_targets.append(
-                    [self.added_career_target, self.added_career_target_btn, self.career_target_num])
                 con.commit()
+            self.career_targets.append(
+                [self.added_career_target, self.added_career_target_btn, self.career_target_num])
 
     # ---------------------------------------------------------Удалить цель карьеры
 
     def del_career(self):
-        with sq.connect(db) as con:
-            cur = con.cursor()
+        if len(self.career_targets) >= 2:
+            with sq.connect(db) as con:
+                cur = con.cursor()
 
-            sql = """SELECT * from targets
-                        WHERE userName = ? and targetCat = ?"""
+                sql = """SELECT * from targets
+                            WHERE userName = ? and targetCat = ?"""
 
-            targets = len(list(cur.execute(sql, (userName, 'Career'))))
-            if targets > 1:
-                sql = """DELETE from targets
-                            WHERE userName = ? and targetText = ? and targetCat = ?"""
+                targets = len(list(cur.execute(sql, (userName, 'Career'))))
+                if targets > 1:
+                    sql = """DELETE from targets
+                                WHERE userName = ? and targetText = ? and targetCat = ?"""
 
-            else:
-                sql = """UPDATE targets
-                            SET targetText = '',
-                            isFinished = 'False'
-                            WHERE userName = ? and targetText = ? and targetCat = ?"""
+                else:
+                    sql = """UPDATE targets
+                                SET targetText = '',
+                                isFinished = 'False'
+                                WHERE userName = ? and targetText = ? and targetCat = ?"""
 
-            cur.execute(
-                sql, (userName, self.career_targets[-1][0].text(), 'Career'))
+                cur.execute(
+                    sql, (userName, self.career_targets[-2][0].text(), 'Career'))
 
-            con.commit()
+                con.commit()
 
         if len(self.career_targets) > 1:
             for i in self.career_targets[-1]:
                 i.hide()
             self.career_targets = self.career_targets[:-1]
+            self.career_targets[-1][0].setText('')
+            self.career_targets[-1][0].setEnabled(True)
+            self.career_targets[-1][0].setStyleSheet('background-color: #FFFFFF; color: #000000')
         else:
             for i in self.career_targets[-1]:
                 i.hide()
@@ -399,7 +398,7 @@ class MainForm(QWidget):
 
             self.career_target_num = QLabel(self)
             self.career_target_num.move(185, 110)
-            self.career_target_num.setText('1.')
+            self.career_target_num.setText(f'{self.career_targets}. ')
             
             self.career_targets.append([self.career_target, self.career_target_btn, self.career_target_num])
 
@@ -426,6 +425,7 @@ class MainForm(QWidget):
             self.added_mental_target_btn.setText('Finished!')
             self.added_mental_target_btn.clicked.connect(self.finish_mental)
             self.added_mental_target_btn.show()
+            self.mental_targets[-1][0].setEnabled(False)
 
             with sq.connect(db) as con:
                 cur = con.cursor()
@@ -442,39 +442,45 @@ class MainForm(QWidget):
                     res = cur.execute(
                         sql, (self.mental_targets[-1][0].text(), ))
 
-                self.mental_targets[-1][0].setEnabled(False)
-                self.mental_targets.append(
-                    [self.added_mental_target, self.added_mental_target_btn, self.mental_target_num])
                 con.commit()
+            self.mental_targets.append(
+                [self.added_mental_target, self.added_mental_target_btn, self.mental_target_num])
+
 
     # ---------------------------------------------------------Удалить цель менталки
     def del_mental(self):
-        with sq.connect(db) as con:
-            cur = con.cursor()
+        if len(self.mental_targets) >= 2:
+            with sq.connect(db) as con:
+                cur = con.cursor()
 
-            sql = """SELECT * from targets
-                        WHERE userName = ? and targetCat = ?"""
+                sql = """SELECT * from targets
+                            WHERE userName = ? and targetCat = ?"""
 
-            targets = len(list(cur.execute(sql, (userName, 'Mental'))))
-            if targets > 1:
-                sql = """DELETE from targets
-                            WHERE userName = ? and targetText = ? and targetCat = ?"""
+                targets = len(list(cur.execute(sql, (userName, 'Mental'))))
+                if targets > 1:
+                    sql = """DELETE from targets
+                                WHERE userName = ? and targetText = ? and targetCat = ?"""
 
-            else:
-                sql = """UPDATE targets
-                            SET targetText = '',
-                            isFinished = 'False'
-                            WHERE userName = ? and targetText = ? and targetCat = ?"""
+                else:
+                    sql = """UPDATE targets
+                                SET targetText = '',
+                                isFinished = 'False'
+                                WHERE userName = ? and targetText = ? and targetCat = ?"""
 
-            cur.execute(
-                sql, (userName, self.mental_targets[-1][0].text(), 'Mental'))
+                cur.execute(
+                    sql, (userName, self.mental_targets[-2][0].text(), 'Mental'))
 
-            con.commit()
+                con.commit()
 
         if len(self.mental_targets) > 1:
             for i in self.mental_targets[-1]:
                 i.hide()
             self.mental_targets = self.mental_targets[:-1]
+            print(self.mental_targets[-1][0].text())
+            self.mental_targets[-1][0].setText('')
+            self.mental_targets[-1][0].setEnabled(True)
+
+            self.mental_targets[-1][0].setStyleSheet('background-color: #FFFFFF; color: #000000')
         else:
             for i in self.mental_targets[-1]:
                 i.hide()
@@ -494,7 +500,7 @@ class MainForm(QWidget):
             self.mental_target_num = QLabel(self)
             self.mental_target_num.move(605, 110)
             self.mental_target_num.setText('1.')
-            
+
             self.mental_targets.append([self.mental_target, self.mental_target_btn, self.mental_target_num])
 
     # ---------------------------------------------------------Добавить цель спорта
@@ -541,32 +547,36 @@ class MainForm(QWidget):
                 con.commit()
     # ---------------------------------------------------------Удалить цель спорта
     def del_sport(self):
-        with sq.connect(db) as con:
-            cur = con.cursor()
+        if len(self.sport_targets) >= 2:
+            with sq.connect(db) as con:
+                cur = con.cursor()
 
-            sql = """SELECT * from targets
-                        WHERE userName = ? and targetCat = ?"""
+                sql = """SELECT * from targets
+                            WHERE userName = ? and targetCat = ?"""
 
-            targets = len(list(cur.execute(sql, (userName, 'Sport'))))
-            if targets > 1:
-                sql = """DELETE from targets
-                            WHERE userName = ? and targetText = ? and targetCat = ?"""
+                targets = len(list(cur.execute(sql, (userName, 'Sport'))))
+                if targets > 1:
+                    sql = """DELETE from targets
+                                WHERE userName = ? and targetText = ? and targetCat = ?"""
 
-            else:
-                sql = """UPDATE targets
-                            SET targetText = '',
-                            isFinished = 'False'
-                            WHERE userName = ? and targetText = ? and targetCat = ?"""
+                else:
+                    sql = """UPDATE targets
+                                SET targetText = '',
+                                isFinished = 'False'
+                                WHERE userName = ? and targetText = ? and targetCat = ?"""
 
-            cur.execute(
-                sql, (userName, self.sport_targets[-1][0].text(), 'Sport'))
+                cur.execute(
+                    sql, (userName, self.sport_targets[-2][0].text(), 'Sport'))
 
-            con.commit()
+                con.commit()
 
         if len(self.sport_targets) > 1:
             for i in self.sport_targets[-1]:
                 i.hide()
             self.sport_targets = self.sport_targets[:-1]
+            self.sport_targets[-1][0].setText('')
+            self.sport_targets[-1][0].setEnabled(True)
+            self.sport_targets[-1][0].setStyleSheet('background-color: #FFFFFF; color: #000000')
         else:
             for i in self.sport_targets[-1]:
                 i.hide()
@@ -586,6 +596,6 @@ class MainForm(QWidget):
             self.sport_target_num = QLabel(self)
             self.sport_target_num.move(1005, 110)
             self.sport_target_num.setText('1.')
-            
+
             self.sport_targets.append([self.sport_target, self.sport_target_btn, self.sport_target_num])
 
