@@ -39,6 +39,8 @@ class RegForm(QMainWindow):
 
         self.passwordEdit = QLineEdit(self)
         self.passwordEdit.setGeometry(140, 253, 140, 25)
+        self.passwordEdit.setEchoMode(QLineEdit.EchoMode.Password)
+
 
         # Кнопка сохранения
         self.applyBtn = QPushButton(self)
